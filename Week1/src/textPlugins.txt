@@ -1,0 +1,2 @@
+text.processor.implementation.DotsToExclamationsProcessor
+text.processor.implementation.AllCapitalProcessor
