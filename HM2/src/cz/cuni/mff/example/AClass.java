@@ -1,3 +1,8 @@
+package cz.cuni.mff.example;
+
+import cz.cuni.mff.annotation.CodExAnnotation;
+import cz.cuni.mff.annotation.Examppp;
+
 public class AClass {
     @Examppp
     @CodExAnnotation

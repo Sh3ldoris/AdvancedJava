@@ -1,3 +1,5 @@
+package cz.cuni.mff.annotation;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
