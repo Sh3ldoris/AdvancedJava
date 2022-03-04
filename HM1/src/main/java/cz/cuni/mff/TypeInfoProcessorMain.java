@@ -1,4 +1,4 @@
-package main.java.cz.cuni.mff;
+package cz.cuni.mff;
 
 import java.io.BufferedReader;
 import java.io.IOException;
