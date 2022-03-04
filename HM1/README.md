@@ -1,4 +1,4 @@
-# HW 2 - Type info processor
+# HW 1 - Type info processor
 Project represents processor which prints out information about given Java types. The types is loaded and readed from file,
 but if there was no program argument (file name) input will be taken from command line by user.
 
