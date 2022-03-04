@@ -1,3 +1,5 @@
+package main.java.cz.cuni.mff;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,7 +9,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
-public class Main {
+public class TypeInfoProcessorMain {
 
     public static void main(String[] args) {
         if (args.length == 0) {
