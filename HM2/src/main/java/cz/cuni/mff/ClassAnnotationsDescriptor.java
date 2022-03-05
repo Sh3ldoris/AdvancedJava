@@ -18,7 +18,7 @@ public class ClassAnnotationsDescriptor {
         try {
             cls = Class.forName(name);
         } catch (ClassNotFoundException e) {
-            System.out.println(name + " does not exist\n");
+            System.out.println(name + " does not exists\n");
             return;
         }
 
