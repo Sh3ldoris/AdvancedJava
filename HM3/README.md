@@ -1,6 +1,6 @@
 # HW 3 - Directory service loader
 This multimodule project represents simple text processor which takes input from user,
-process it with loaded textprocessor plugins and then print it to the output.
+process it with loaded textprocessor plugins and then prints it to the output.
 Program loads plugin packaged in .jar files which are in given directory. The directory is passed by program argument.
 To load plugins is used Java ServiceLoader.
 
