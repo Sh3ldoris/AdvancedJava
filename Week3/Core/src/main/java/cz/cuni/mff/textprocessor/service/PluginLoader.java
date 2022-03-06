@@ -6,7 +6,5 @@ import java.util.ServiceLoader;
 
 public interface PluginLoader {
 
-    ServiceLoader<TextProcessor> loadPlugins();
-
-    void setLoadingPath(String path);
+    ServiceLoader<TextProcessor> load();
 }
