@@ -1,4 +1,4 @@
-# Advanced text processor
+# Lab 3 - Advanced text processor
 Project is updated version of [___Week1___](./Week1) project but in this version 
 to load [`textprocessor`](Core/src/main/java/cz/cuni/mff/textprocessor/processor/TextProcessor.java)
 plugins is used `java.util.ServiceLoader`. There are 2 implementation of loading pluggins:
