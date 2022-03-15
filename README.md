@@ -12,3 +12,4 @@ Minimum requirements for running these projects:
 * [__Homework 1__](HM1) - Reflection API assignment
 * [__Homework 2__](HM2) - Annotations assignment
 * [__Homework 3__](HM3) - Directory ServiceLoader
+* [__Homework 4__](HM4) - Java modules
