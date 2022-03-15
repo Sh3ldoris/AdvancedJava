@@ -25,6 +25,15 @@ public class ClassAnnotationsDescriptor {
         Map<String, List<Annotation>> mtds = Collections.synchronizedSortedMap(new TreeMap<>());
 
         while (!cls.getName().equals("java.lang.Object")) {
+            for (Class<?> clazz : cls.getInterfaces()) {
+                for (Method m : clazz.getMethods()) {
+                    if (!mtds.containsKey(m.getName())) {
+                        mtds.put(m.getName(), new ArrayList<>(Arrays.stream(m.getAnnotations()).toList()));
+                    } else {
+                        mtds.get(m.getName()).addAll(Arrays.stream(m.getAnnotations()).toList());
+                    }
+                }
+            }
             for (Method m : cls.getDeclaredMethods()) {
                 if (!Modifier.isAbstract(m.getModifiers())) {
                     if (!mtds.containsKey(m.getName())) {
