@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<article>
+  <title>Ukazka odkazu</title>
+  <section>
+    <title>Ukazka elementu <tag>link</tag></title>
+    <para>
+      V tomto odstavci je
+      <link linkend="dalsi">tenhle text odkazem</link>,
+      ktery vede na dalsi sekci.
+    </para>
+    <section id="dalsi">
+      <title id="nadpis">Podsekce</title>
+      <para>
+        Tahle sekce je tu jenom proto, abychom na ni
+        mohli odkazovat.
+      </para>
+      <para>
+        A kdyz uz tady je, proc do ni nepridat nejaky
+        <link linkend="nadpis">dalsi <tag>odkaz</tag></link>?
+      </para>
+      <para>
+        A jeste jeden <link linkend="odstavec">odkaz</link>.
+      </para>
+    </section>
+  </section>
+  <section>
+    <title>Nejaky nadpis</title>
+    <para id="odstavec">
+      Bla bla bla.
+    </para>
+  </section>
+</article>
