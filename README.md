@@ -13,3 +13,7 @@ Minimum requirements for running these projects:
 * [__Homework 2__](HM2) - Annotations assignment
 * [__Homework 3__](HM3) - Directory ServiceLoader
 * [__Homework 4__](HM4) - Java modules
+* [__Homework 7__](HM7) - XML parsing
+* [__Homework 8__](HM8) - JavaFX graph
+* [__Homework 8__](HM8) - Java RMI
+* [__Homework 11__](HM11) - JDBC assingment
