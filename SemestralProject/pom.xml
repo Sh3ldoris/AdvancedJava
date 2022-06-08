@@ -52,6 +52,13 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Style -->
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>4.4.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

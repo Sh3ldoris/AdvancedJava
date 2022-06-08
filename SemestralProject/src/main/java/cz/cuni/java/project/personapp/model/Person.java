@@ -11,8 +11,8 @@ import javax.persistence.Id;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NonNull
     private String firstName;
     @NonNull
@@ -22,8 +22,11 @@ public class Person {
     @NonNull
     private String city;
     private String occupation;
+    @NonNull
+    private boolean isProfileGenerated;
 
     public Person() {
+        this.isProfileGenerated = false;
     }
 
     public Person(String firstName, String lastName, String address, String city, String occupation) {
@@ -32,6 +35,23 @@ public class Person {
         this.address = address;
         this.city = city;
         this.occupation = occupation;
+        this.isProfileGenerated = false;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public boolean isProfileGenerated() {
+        return isProfileGenerated;
+    }
+
+    public void setProfileGenerated(boolean profileGenerated) {
+        isProfileGenerated = profileGenerated;
     }
 
     public String getFirstName() {

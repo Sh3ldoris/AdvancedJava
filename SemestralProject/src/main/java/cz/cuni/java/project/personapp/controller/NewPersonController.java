@@ -1,6 +1,7 @@
 package cz.cuni.java.project.personapp.controller;
 
 import cz.cuni.java.project.personapp.model.dto.PersonDTO;
+import cz.cuni.java.project.personapp.service.PersonService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/person/new")
 public class NewPersonController {
 
+    private PersonService personService;
+
+    public NewPersonController(PersonService personService) {
+        this.personService = personService;
+    }
+
     @GetMapping
     public String getNewPersonPage(Model model) {
         model.addAttribute("person", new PersonDTO("", "", "", "", ""));
@@ -20,9 +27,11 @@ public class NewPersonController {
 
     @PostMapping
     public String savePerson(
-            @ModelAttribute(value="person") PersonDTO personDTO,
+            @ModelAttribute(value=Parameters.PERSON_DTO) PersonDTO personDTO,
             Model model
     ) {
-        return "/index"; //TODO: implement
+        if (personDTO != null)
+            personService.savePerson(personDTO);
+        return "/index";
     }
 }
