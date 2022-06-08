@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.4.1/dist/css/bootstrap.min.css}"/>
+    <meta charset="UTF-8">
+    <title>Lastly registrated people</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>People, that recently registered</h2>
+                <ul class="list-group">
+                    <li class="list-group-item list-group-item-action" th:each="person, it : ${page.getContent()}">
+                        <div class="mb-1">
+                            <div class="row">
+                                <div class="col-1">
+                                    <h5><span th:text="${it.count + '.'}"></span></h5>
+                                </div>
+                                <div class="col-5"><h5><span th:text="${person.firstName() + ' ' + person.lastName()}"></span></h5></div>
+                                <div class="col-6"><span th:text="${person.address() + ', ' + person.city()}"></span></div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+                <nav class="mt-2 mb-2">
+                    <ul class="pagination" th:if="${page.getTotalPages() > 1}">
+                        <li class="page-item"
+                            th:each="pageNumber : ${pageNumbers}"
+                            th:classappend="${pageNumber == page.getPageable().getPageNumber() + 1? 'active' : ''}">
+                            <a class="page-link"
+                               th:href="@{'/persons?page=' + ${pageNumber}}"
+                               th:text="${pageNumber}">
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
