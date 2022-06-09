@@ -9,8 +9,17 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h2>People, that recently registered</h2>
-                <ul class="list-group">
+                <h2 class="mb-2">People, that recently registered</h2>
+
+                <form method="post" th:action="@{/persons}" th:if="${not #lists.isEmpty(page.getContent())}">
+                    <button class="btn btn-primary" type="submit">Generate profiles</button>
+                </form>
+
+                <div class="alert alert-danger mt-2" role="alert" th:if="${alertMessage != null}">
+                    <span th:text="${alertMessage}"></span>
+                </div>
+
+                <ul class="list-group mt-2">
                     <li class="list-group-item list-group-item-action" th:each="person, it : ${page.getContent()}">
                         <div class="mb-1">
                             <div class="row">

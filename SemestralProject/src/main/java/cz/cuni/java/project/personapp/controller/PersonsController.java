@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -35,6 +36,12 @@ public class PersonsController {
         }
         model.addAttribute("page", personDTOPage);
         return "persons";
+    }
+
+    @PostMapping
+    public String generateProfiles(Model model) {
+        model.addAttribute("alertMessage", "Cannot generate profiles!"); //TODO: redirect to success or alert page
+        return "index";
     }
 
     private List<Integer> getPageNumbers(Page page) {
