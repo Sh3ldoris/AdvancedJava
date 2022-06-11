@@ -1,5 +1,16 @@
 version: '3'
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+#    volumes:
+#      - rabbitmq:/var/lib/rabbitmq/data/
+    environment:
+      - RABBITMQ_DEFAULT_USER=integration-user
+      - RABBITMQ_DEFAULT_PASS=jsrot
+    ports:
+      - 5672:5672
+      - 15672:15672
+
   database:
     image: "postgres" # use latest official postgres version
     env_file:

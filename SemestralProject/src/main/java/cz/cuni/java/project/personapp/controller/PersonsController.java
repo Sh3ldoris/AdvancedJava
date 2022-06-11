@@ -30,7 +30,7 @@ public class PersonsController {
             @RequestParam(value = Parameters.SIZE, required = false, defaultValue = "${person.app.persons.page.size}") int size,
             Model model
     ) {
-        Page<PersonDTO> personDTOPage = personService.getNewPersons(pageNumber - 1, size);
+        Page<PersonDTO> personDTOPage = personService.getNewPersonsPaged(pageNumber - 1, size);
         if (personDTOPage.getTotalPages() > 0) {
             model.addAttribute("pageNumbers", getPageNumbers(personDTOPage));
         }
@@ -40,8 +40,10 @@ public class PersonsController {
 
     @PostMapping
     public String generateProfiles(Model model) {
-        model.addAttribute("alertMessage", "Cannot generate profiles!"); //TODO: redirect to success or alert page
-        return "index";
+        personService.getNewPersons()
+                .forEach(person -> personService.generateProfiles(person.getId()));
+        model.addAttribute("message", "user profiles sent for generating");
+        return "user-message";
     }
 
     private List<Integer> getPageNumbers(Page page) {

@@ -6,8 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
+@XmlRootElement()
 public class Person {
 
     @Id
@@ -42,6 +45,7 @@ public class Person {
         return id;
     }
 
+    @XmlTransient
     public void setId(Long id) {
         this.id = id;
     }
@@ -50,6 +54,7 @@ public class Person {
         return isProfileGenerated;
     }
 
+    @XmlTransient
     public void setProfileGenerated(boolean profileGenerated) {
         isProfileGenerated = profileGenerated;
     }
@@ -92,5 +97,18 @@ public class Person {
 
     public void setOccupation(String occupation) {
         this.occupation = occupation;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", occupation='" + occupation + '\'' +
+                ", isProfileGenerated=" + isProfileGenerated +
+                '}';
     }
 }

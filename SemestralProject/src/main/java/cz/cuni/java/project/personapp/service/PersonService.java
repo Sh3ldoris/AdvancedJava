@@ -4,22 +4,34 @@ import cz.cuni.java.project.personapp.exception.PersonException;
 import cz.cuni.java.project.personapp.model.Person;
 import cz.cuni.java.project.personapp.model.dto.PersonDTO;
 import cz.cuni.java.project.personapp.repository.PersonRepository;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.Message;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import java.io.StringWriter;
 import java.util.List;
 
 @Service
 public class PersonService {
 
     private final PersonRepository personRepository;
+    private AmqpTemplate rabbitmqTemplate;
 
-    public PersonService(PersonRepository personRepository) {
+    @Value("${person.app.persons.generate.profile.dest:destination}")
+    private String generateProfileDest;
+
+    public PersonService(PersonRepository personRepository, AmqpTemplate rabbitmqTemplate) {
 
         this.personRepository = personRepository;
+        this.rabbitmqTemplate = rabbitmqTemplate;
     }
 
     public void savePerson(PersonDTO person) {
@@ -48,11 +60,50 @@ public class PersonService {
         );
     }
 
-    public Page<PersonDTO> getNewPersons(int page, int size) {
+    public Page<PersonDTO> getNewPersonsPaged(int page, int size) {
         Pageable personsPage = PageRequest.of(page, size);
         Page<Person> personPage = personRepository.findAllByIsProfileGenerated(false, personsPage);
         List<PersonDTO> personDTOs = personPage.getContent().stream().map(this::personToPersonDTO).toList();
         return new PageImpl<>(personDTOs, personPage.getPageable(), personPage.getTotalElements());
+    }
+
+    public List<Person> getNewPersons() {
+        return personRepository.findAll().stream()
+                .filter(person -> !person.isProfileGenerated())
+                .toList();
+    }
+
+    public void updatePerson(Person person) {
+        if (person.getId() != null && personRepository.existsById(person.getId())) {
+            personRepository.save(person);
+        } else {
+            throw new PersonException("Cannot find Person by given id -> " + person);
+        }
+    }
+
+    public void generateProfiles(Long id) {
+        Person person = personRepository.findById(id).orElse(null);
+
+        if (person == null) {
+            throw new PersonException("Cannot find Person by given id -> " + id);
+        }
+
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(person.getClass());
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            StringWriter sw = new StringWriter();
+            jaxbMarshaller.marshal(person, sw);
+
+            Message message = new Message(sw.toString().getBytes());
+            rabbitmqTemplate.send(generateProfileDest, message);
+
+            person.setProfileGenerated(true);
+            updatePerson(person);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 
     private PersonDTO personToPersonDTO(Person person) {
