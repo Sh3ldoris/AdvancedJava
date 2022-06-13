@@ -32,7 +32,7 @@ public class PersonsController {
     ) {
         Page<PersonDTO> personDTOPage = personService.getNewPersonsPaged(pageNumber - 1, size);
         if (personDTOPage.getTotalPages() > 0) {
-            model.addAttribute("pageNumbers", getPageNumbers(personDTOPage));
+            model.addAttribute("pageNumbers", Parameters.getPageNumbers(personDTOPage));
         }
         model.addAttribute("page", personDTOPage);
         return "persons";
@@ -44,11 +44,5 @@ public class PersonsController {
                 .forEach(person -> personService.generateProfiles(person.getId()));
         model.addAttribute("message", "user profiles sent for generating");
         return "user-message";
-    }
-
-    private List<Integer> getPageNumbers(Page page) {
-        return IntStream.rangeClosed(1, page.getTotalPages())
-                .boxed()
-                .collect(Collectors.toList());
     }
 }

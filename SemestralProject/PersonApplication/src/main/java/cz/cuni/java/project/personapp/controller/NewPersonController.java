@@ -21,7 +21,7 @@ public class NewPersonController {
 
     @GetMapping
     public String getNewPersonPage(Model model) {
-        model.addAttribute("person", new PersonDTO("", "", "", "", ""));
+        model.addAttribute("person", new PersonDTO(null, "", "", "", "", ""));
         return "new-person";
     }
 

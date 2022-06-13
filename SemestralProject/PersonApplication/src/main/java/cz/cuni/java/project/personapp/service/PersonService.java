@@ -75,6 +75,13 @@ public class PersonService {
                 .toList();
     }
 
+    public Page<PersonDTO> getPersonsWithProfiles(int page, int size) {
+        Pageable personsPage = PageRequest.of(page, size);
+        Page<Person> personPage = personRepository.findAllByIsProfileGenerated(true, personsPage);
+        List<PersonDTO> personDTOs = personPage.getContent().stream().map(this::personToPersonDTO).toList();
+        return new PageImpl<>(personDTOs, personPage.getPageable(), personPage.getTotalElements());
+    }
+
     public void updatePerson(Person person) {
         if (person.getId() != null && personRepository.existsById(person.getId())) {
             personRepository.save(person);
@@ -106,8 +113,8 @@ public class PersonService {
                     .andProperties(properties);
             rabbitmqTemplate.send(generateProfileDest, messageBuilder.build());
 
-//            person.setProfileGenerated(true);
-//            updatePerson(person);
+            person.setProfileGenerated(true);
+            updatePerson(person);
         } catch (JAXBException e) {
             e.printStackTrace();
         }
@@ -115,6 +122,7 @@ public class PersonService {
 
     private PersonDTO personToPersonDTO(Person person) {
         return new PersonDTO(
+                person.getId(),
                 person.getFirstName(),
                 person.getLastName(),
                 person.getAddress(),
