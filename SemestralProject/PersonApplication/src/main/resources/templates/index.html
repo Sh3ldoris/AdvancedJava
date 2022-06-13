@@ -1,15 +1,19 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.1.3/dist/css/bootstrap.min.css}"/>
     <meta charset="UTF-8">
-    <title>Peson application</title>
+    <title>Person application</title>
 </head>
 <body>
-    <h1>Welcome to the application!</h1>
-    <a class="nav-link" th:href="@{'/person/new'}">Add new person</a>
-    <br>
-    <a class="nav-link" th:href="@{'/persons'}">List of new people</a>
-    <br>
-    <a class="nav-link" th:href="@{'/profiles'}">List of people with profiles</a>
+    <div class="container" style="min-height: 100vh">
+        <div class="d-flex justify-content-center " style="min-height: 100vh">
+            <div class="d-flex align-items-center">
+                <div onclick="window.location.href='/person/new'" class="d-flex align-items-center justify-content-center btn btn-primary" STYLE="margin-right: 4rem; width: 300px; height: 100px">New here</div>
+                <div onclick="window.location.href='/persons'" class="d-flex align-items-center justify-content-center btn btn-primary" style="width: 300px; height: 100px">Admin</div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
