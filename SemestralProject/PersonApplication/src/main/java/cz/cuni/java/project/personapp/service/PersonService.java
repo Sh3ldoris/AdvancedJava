@@ -6,6 +6,8 @@ import cz.cuni.java.project.personapp.model.dto.PersonDTO;
 import cz.cuni.java.project.personapp.repository.PersonRepository;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.core.MessageProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -96,11 +98,16 @@ public class PersonService {
             StringWriter sw = new StringWriter();
             jaxbMarshaller.marshal(person, sw);
 
-            Message message = new Message(sw.toString().getBytes());
-            rabbitmqTemplate.send(generateProfileDest, message);
+            MessageProperties properties = new MessageProperties();
+            properties.setHeader("personId", person.getId());
 
-            person.setProfileGenerated(true);
-            updatePerson(person);
+            MessageBuilder messageBuilder = MessageBuilder
+                    .withBody(sw.toString().getBytes())
+                    .andProperties(properties);
+            rabbitmqTemplate.send(generateProfileDest, messageBuilder.build());
+
+//            person.setProfileGenerated(true);
+//            updatePerson(person);
         } catch (JAXBException e) {
             e.printStackTrace();
         }
