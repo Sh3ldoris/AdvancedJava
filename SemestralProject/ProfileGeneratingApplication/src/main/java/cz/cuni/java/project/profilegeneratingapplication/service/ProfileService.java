@@ -3,6 +3,8 @@ package cz.cuni.java.project.profilegeneratingapplication.service;
 import com.itextpdf.html2pdf.HtmlConverter;
 import cz.cuni.java.project.profilegeneratingapplication.model.UserProfile;
 import cz.cuni.java.project.profilegeneratingapplication.repository.ProfileRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.xml.transform.StringSource;
 
@@ -19,6 +21,8 @@ import java.util.Base64;
 
 @Service
 public class ProfileService {
+
+    private static final Logger LOGGER = LogManager.getLogger(ProfileService.class);
 
     private final String PERSON_XSL_FILE_REF = "C:\\CU\\AdvancedJava\\CodeRepository\\SemestralProject\\ProfileGeneratingApplication\\src\\main\\resources\\PersonToHTML.xsl";
     private ProfileRepository profileRepository;
@@ -50,18 +54,21 @@ public class ProfileService {
 
             profileRepository.save(userProfile);
         } catch (TransformerException e) {
+            LOGGER.warn("Error while generating person profile");
             e.printStackTrace();
         }
     }
 
     public String getHtmlPersonProfile(Long personId) {
         if (personId == null ) {
+            LOGGER.warn("Person id is null");
             return "";
         }
 
         UserProfile userProfile = profileRepository.findById(personId).orElse(null);
 
         if (userProfile == null) {
+            LOGGER.warn("User profile is null");
             return "";
         }
 
@@ -70,12 +77,14 @@ public class ProfileService {
 
     public byte[] getPdfPersonProfile(Long personId) {
         if (personId == null ) {
+            LOGGER.warn("Person id is null");
             return new byte[] {};
         }
 
         UserProfile userProfile = profileRepository.findById(personId).orElse(null);
 
         if (userProfile == null) {
+            LOGGER.warn("User profile is null");
             return new byte[] {};
         }
 

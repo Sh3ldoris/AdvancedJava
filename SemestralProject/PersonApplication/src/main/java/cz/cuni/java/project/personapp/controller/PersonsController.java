@@ -1,5 +1,6 @@
 package cz.cuni.java.project.personapp.controller;
 
+import cz.cuni.java.project.personapp.connector.PersonProfileAdapter;
 import cz.cuni.java.project.personapp.model.dto.PersonDTO;
 import cz.cuni.java.project.personapp.service.PersonService;
 import org.springframework.data.domain.Page;
@@ -10,18 +11,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 @Controller
 @RequestMapping("/persons")
 public class PersonsController {
 
     private PersonService personService;
+    private PersonProfileAdapter personProfileAdapter;
 
-    public PersonsController(PersonService personService) {
+    public PersonsController(PersonService personService, PersonProfileAdapter personProfileAdapter) {
         this.personService = personService;
+        this.personProfileAdapter = personProfileAdapter;
     }
 
     @GetMapping
@@ -41,7 +40,11 @@ public class PersonsController {
     @PostMapping
     public String generateProfiles(Model model) {
         personService.getNewPersons()
-                .forEach(person -> personService.generateProfiles(person.getId()));
+                .forEach(person -> {
+                    personProfileAdapter.generateProfile(person);
+                    person.setProfileGenerated(true);
+                    personService.updatePerson(person);
+                });
         model.addAttribute("message", "user profiles sent for generating");
         return "user-message";
     }

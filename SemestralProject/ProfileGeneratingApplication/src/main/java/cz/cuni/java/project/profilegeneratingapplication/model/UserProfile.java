@@ -1,5 +1,7 @@
 package cz.cuni.java.project.profilegeneratingapplication.model;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Lob;
@@ -11,6 +13,7 @@ public class UserProfile {
     @Id
     private Long id;
     @Lob
+    @NonNull
     private String htmlProfile;
 
     public UserProfile() {
