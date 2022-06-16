@@ -25,7 +25,7 @@ public class PersonProfileAdapter {
     private static final Logger LOGGER = LogManager.getLogger(PersonProfileAdapter.class);
 
     private AmqpTemplate rabbitmqTemplate;
-    @Value("profile.service.rest.url")
+    @Value("${profile.service.rest.url}")
     private String profileHost;
     @Value("${person.app.persons.generate.profile.dest:destination}")
     private String generateProfileDest;

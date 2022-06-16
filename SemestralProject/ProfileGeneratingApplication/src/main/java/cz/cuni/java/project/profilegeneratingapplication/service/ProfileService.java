@@ -5,6 +5,7 @@ import cz.cuni.java.project.profilegeneratingapplication.model.UserProfile;
 import cz.cuni.java.project.profilegeneratingapplication.repository.ProfileRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.xml.transform.StringSource;
 
@@ -24,7 +25,8 @@ public class ProfileService {
 
     private static final Logger LOGGER = LogManager.getLogger(ProfileService.class);
 
-    private final String PERSON_XSL_FILE_REF = "C:\\CU\\AdvancedJava\\CodeRepository\\SemestralProject\\ProfileGeneratingApplication\\src\\main\\resources\\PersonToHTML.xsl";
+    @Value("${profile.service.xsl.destination}")
+    private String PERSON_XSL_FILE_REF;
     private ProfileRepository profileRepository;
 
     public ProfileService(ProfileRepository profileRepository) {
